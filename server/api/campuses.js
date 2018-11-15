@@ -26,40 +26,22 @@ router.get('/:campusId', async (req, res, next) => {
 });
 
 //POST(adding) /api/campuses
-router.post('/campuses', async(req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const newCampus = await Campus.create(req.body);
-    res.json(newCampus)
+    res.status(200).json(newCampus)
   } catch (error) {
     next(error)
   }
 });
 
-// POST /api/campuses/:campusId/new-student
-// router.post('/:campusId/new-student', (req, res, next) => {
-
-//   return Campus.findById(req.body.campusId)
-//   .then(campus => {
-//     const student = Student.build(req.body);
-//     student.setCampus(campus, { save: false });
-//     return student.save()
-//       .then(student => {
-//         student = student.toJSON(); // here, we make student an object via .toJSON
-//         student.campus = campus; // so that we can add the campus manually (can't use include here, since campus already exists)
-//         return student;
-//       });
-//   })
-//   .then(student => {
-//     res.json(student);
-//   })
-//   .catch(next);
-// });
-
 //DELETE
 router.delete('/:campusId', async (req, res, next)=> {
+  const campus = await Campus.findById(req.params.id);
+  if (!campus) return res.status(404).send();
   try {
-    const campus = await Campus.findById(req.params.campusId);
-    res.json(campus.destroy())
+    await Campus.destroy({where: {id:req.params.id}})
+    res.status(200).send()
   } catch (error) {
     next(error)
   }
@@ -69,8 +51,9 @@ router.delete('/:campusId', async (req, res, next)=> {
 //PUT(updating) /api/campuses/:campusId
 router.put('/:campusId', async (req, res, next) => {
   try {
-    const campus = await Campus.findById(req.params.campusId);
-    res.json(campus.update(req.body));
+    // const campus = await Campus.findById(req.params.id);
+    // res.json(campus.update(req.body));
+    var x = await Campus.update(req.body, {where: {id:req.params.id},returning: true})
   } catch (error) {
     next(error)
   }

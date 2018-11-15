@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 //const db = require('../index');
 const db = require('./database.js')
-const Campus = require('./Campus');
+
 
 const Student = db.define('student', {  
     firstName: {

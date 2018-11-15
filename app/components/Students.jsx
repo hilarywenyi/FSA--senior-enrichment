@@ -21,14 +21,15 @@ const Students = (props) => {
                       students.map(student => {
                         return (
                             <tr key = {student.id}>
-                                 <td><Link to ={`student/${student.id}`}>{student.id}</Link></td>
-                                 <td><Link to ={`student/${student.id}`}>{student.firstName} {student.lastName}</Link></td>
+                                 <td><Link to ={`students/${student.id}`}>{student.id}</Link></td>
+                                 <td><Link to ={`students/${student.id}`}>{`${student.firstName} ${student.lastName}`}</Link></td>
                             </tr>
                         )
                      }) 
                     }  
                   </tbody>
                   </table>
+                  <Link to ={'/students/new-student'}> <button> Add New Student </button></Link>
                  
              </div>
          )
