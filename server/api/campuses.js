@@ -19,9 +19,9 @@ router.get('/', async (req, res, next) => {
 router.get('/:campusId', async (req, res, next) => {
     try {
       const campus = await Campus.findById(req.params.campusId, {include: [Student]});
-      res.send(campus)
+      res.json(campus)
     } catch (error) {
-       next(error)
+      next(error)
     }
 });
 
@@ -29,6 +29,7 @@ router.get('/:campusId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const newCampus = await Campus.create(req.body);
+    console.log('campus', newCampus)
     res.status(200).json(newCampus)
   } catch (error) {
     next(error)
@@ -36,12 +37,12 @@ router.post('/', async (req, res, next) => {
 });
 
 //DELETE
-router.delete('/:campusId', async (req, res, next)=> {
-  const campus = await Campus.findById(req.params.id);
-  if (!campus) return res.status(404).send();
+router.delete('/:campusId', async (req, res, next)=> { 
   try {
-    await Campus.destroy({where: {id:req.params.id}})
-    res.status(200).send()
+    const campus = await Campus.findById(req.params.campusId);
+    console.log('campus in backend', campus)
+    await campus.destroy()
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }

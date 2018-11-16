@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Route, Switch, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux'
 
+import store from '../store'
 //Import components
 import Home from './Home';
 import  Navbar  from './Navbar'
@@ -23,7 +24,6 @@ import { thunkFetchCampuses } from  '../reducers/campuses'
 
 class Root extends Component {
   componentDidMount() {
-    console.log('this.props', this.props);
     this.props.thunkFetchCampuses();
     //store.dispatch(thunkFetchCampuses())
     //store.dispatch(thunkFetchStudents())
@@ -44,9 +44,10 @@ class Root extends Component {
               <Route exact path = "/home" component = {Home} />
               <Route exact path = "/campuses" component = {Campuses} />
               {/* <Route exact path = "/students" component = {Students} /> */}
+              <Route exact path = "/campuses/newCampus" component = {NewCampus} />
               <Route exact path = "/campuses/:campusId" component = {SingleCampus} />
               {/* <Route exact path = "/students/:studentId" component = {SingleStudent} /> */}
-              <Route exact path = "/campuses/newCampus" component = {NewCampus} />
+              
               {/* <Route path = "/campuses/:campusId/new-student" component = {NewStudent} />
               <Route exact path = "/campuses/:campusId/edit-campus" component = {EditCampus} /> */}
               {/* <Route exact path = "/students/:studentId/edit-student" component = {EditStudent} /> */}            
@@ -61,6 +62,7 @@ const mapStateToProps = (state) => {
     isFetching: state.campuses.isFetching
   }
 }
+//initial loading happening here 
 const mapDispatchToProps = dispatch =>{
   return {
     thunkFetchCampuses: () => dispatch(thunkFetchCampuses())

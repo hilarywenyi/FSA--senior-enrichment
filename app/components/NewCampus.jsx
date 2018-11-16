@@ -23,7 +23,8 @@ export class NewCampus extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.thunkAddCampus({...this.state});
+    console.log('this.props', this.props)
+    this.props.thunkAddCampus({...this.state}); //name should match line 83
   }
 
   render() {
@@ -79,7 +80,7 @@ export class NewCampus extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addCampus: campus => {
+    thunkAddCampus: campus => {
       dispatch(thunkAddCampus(campus, ownProps));
     }
   };

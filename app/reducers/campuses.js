@@ -4,20 +4,12 @@ import axios from 'axios';
 
 //Action types (past tense GOT CAMPUSES)
 const GET_CAMPUSES = 'GET_CAMPUSES';
-//const GET_CAMPUS = 'GET_CAMPUS';
 const ADD_NEW_CAMPUS = 'ADD_NEW_CAMPUS';
 const EDIT_CAMPUS = 'EDIT_CAMPUS';
 const DELETE_CAMPUS = 'DELETE_CAMPUS';
 
 //Action creators
 export const getCampuses = campuses => ({type: GET_CAMPUSES, campuses})
-
-// export const getCampus = campus => {
-//     return {
-//         type: GET_CAMPUS,
-//         campus
-//     }
-// }
 
 export const addCampus = campus => {
      return {
@@ -58,7 +50,7 @@ export const thunkFetchCampuses = () => {
 export const thunkAddCampus = (newCampus, ownProps) => {
     return async (dispatch) => {
         try { 
-            const { data } = await axios.post('/api/campuses', campus);
+            const { data } = await axios.post('/api/campuses', newCampus);
             dispatch(addCampus(data));
             ownProps.history.push(`/campuses/${data.id}`)
         } catch (error) {
@@ -92,43 +84,47 @@ export const thunkAddCampus = (newCampus, ownProps) => {
 //     }
 // }
 
-//DELETE a campus:
-// export const thunkDeleteCampus = (history, campus) => {
-//     return async dispatch => {
-//         try {
-//           await axios.delete(`/api/campuses/${campus.id}`, {id: campus.id});
-//           const action = deleteCampus(campus);
-//           dispatch(action);
-//           history.push(`/campuses`)
-//         } catch (error) {
-//           console.log('removeCampus went wrong', error)
-//           //toastr.error('Oops!Sorry our bad');
-//         }
-//     }
-// }
+//DELETE a campus: try catch with async/await or Promises
+export const thunkDeleteCampus = (campusId) => {
+    return dispatch => {
+        try {
+          axios.delete(`/api/campuses/${campusId}`);
+          const action = deleteCampus(campusId);
+          dispatch(action);
+        } catch (error) {
+          console.log('removeCampus went wrong', error)
+        }
+    }
+}
 
 //Reducer
-const initialState = {data:[], isFetching:true}
+const initialState = {data:[], isFetching: true}
 export default function campusReducer (state = initialState, action){   
     switch (action.type){
       case GET_CAMPUSES: 
-        return {data:action.campuses, isFetching:false}
+        return {data: action.campuses, isFetching: false}
       
       case ADD_NEW_CAMPUS: 
-        return {data:[...state, action.campus], isFetching:false};        
+        return {data:[...state, action.campus], isFetching: false}        
       
     //   case EDIT_CAMPUS: {
     //     const editedCampuses = state.campuses.filter(campus => campus.id!==Number(action.campus.id));
     //     return Object.assign({},state, {campuses: [...editedCampuses, action.campus]});
     //   }
             
-    //   case DELETE_CAMPUS: {
-    //     const campusToDelete = state.find(campus => campus.id === action.campusId);
-    //     const indexOfCampusToDelete = state.indexOf(campusToDelete);
-    //     let newState = [...state];
-    //     newState.splice(indexOfCampusToDelete, 1);
-    //     return newState; 
-    //   }
+      case DELETE_CAMPUS: {
+        // const campusToDelete = state.find(campus => campus.id === action.campusId);
+        // const indexOfCampusToDelete = state.indexOf(campusToDelete);
+        // let newState = [...state];
+        // newState.splice(indexOfCampusToDelete, 1);
+        // return newState; 
+        console.log('action', action)
+       return {
+        data: state.data.filter(campus => {
+            return campus.id !== action.campusId}), //campusId is a foreign key
+        isFetching: false
+      }
+    }
 
       default:
         return state
