@@ -18,6 +18,7 @@ body {
 
 h1{
   font-size:3em;
+  font-weight:normal;
 }
 
 h2{
@@ -25,19 +26,25 @@ h2{
   font-weight:normal;
 }
 
-.home{
- display:flex;
- flex-direction: column;
- margin-left:20%;
- margin-right:20%;
- text-align:center
+a{
+  display:flex;
+  flex-direction: absolute;
+  color: rgb(15, 8, 36);
+  padding: 0 1em;
+  margin: 1em;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgb(144, 189, 238);
 }
 
 .navbar-container {
   display: flex;
   justify-content: flex-end;
-  background-color: rgb(156, 156, 158);
-  height: 60px;
+  background-color: white;
+  height: 100px;
   padding: 21px;
 }
 
@@ -50,67 +57,38 @@ h2{
   color: rgb(15, 8, 36);
 }
 
-a{
-  display:flex;
-  flex-direction: absolute;
-  color: rgb(15, 8, 36);
-  padding: 0 1em;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
-  color: rgb(144, 189, 238);
-}
-
 main {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background-color: white;
+  background-color: rgb(228, 225, 225);
 }
+
 
 .home {
   display:flex;
   flex-direction:column;
 } 
 
-.campuses-container {
-  display: flex;
+.campuses-container{
+  display:flex;
   flex-wrap: wrap;
-  justify-content: center;
-}
-
-.button-container {
-  display: flex;
-  padding: 1em;
-  margin-bottom: 4em;
-  justify-content: center;
 }
 
 .campus {
   display: flex;
   padding: 2em;
   margin: 1em;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .campus a {
   display: flex;
   justify-content: center;
 }
-
-/* img .campus{
-  display:flex;
-  width: 300px;
-  height: 300px;
-  padding: 2em;
-  justify-content: center;
-  transform: translate(0,0);
-  transition: all;
-} */
 
 img {
   width: 300px;
@@ -131,10 +109,20 @@ img {
   animation: spin 2s linear infinite;
 }
 
-/* .campus-container{
-  display:flex;
-  padding: 2em;
+.button-container {
+  display: flex;
   padding: 1em;
-  flex-direction: column;
+  margin-bottom: 4em;
+  justify-content: center;
+}
 
-} */
+.title {
+ display:flex;
+ text-shadow: 2px 2px 6px grey;
+ flex-direction: row;
+ justify-content:center;
+ align-items: center;
+ flex: 1 0 0;
+}
+
+

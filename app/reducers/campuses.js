@@ -59,17 +59,6 @@ export const thunkAddCampus = (newCampus, ownProps) => {
     }
 }
 
-// export function thunkAddCampus (campus, history) {
-//     return function thunk (dispatch) {
-//         return axios.post('/api/campuses', campus)
-//         .then(res => (res.data))
-//         .then(newCampus => {
-//             dispatch(addCampus(newCampus));
-//             history.push(`/campuses/`);
-//         })
-//     }
-// }
-
 //PUT a campus (editting)
 // export function thunkPutCampus (campus, history) {
 
@@ -112,12 +101,7 @@ export default function campusReducer (state = initialState, action){
     //     return Object.assign({},state, {campuses: [...editedCampuses, action.campus]});
     //   }
             
-      case DELETE_CAMPUS: {
-        // const campusToDelete = state.find(campus => campus.id === action.campusId);
-        // const indexOfCampusToDelete = state.indexOf(campusToDelete);
-        // let newState = [...state];
-        // newState.splice(indexOfCampusToDelete, 1);
-        // return newState; 
+      case DELETE_CAMPUS: {   
         console.log('action', action)
        return {
         data: state.data.filter(campus => {

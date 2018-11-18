@@ -4,8 +4,7 @@ import { connect } from "react-redux"
 
 
 const Students = (props) => {   
-         const { students } = props
-        
+         const { students } = props      
          return ( 
              <div className = "students-container">
                  <h2>List of All Students</h2>                

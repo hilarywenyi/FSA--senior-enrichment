@@ -3,27 +3,27 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux" 
 
 function Campuses(props){  
-             const  {campuses} = props
-             console.log('campuses on prop', props)
-              //campuses want to be an array
+             const  {campuses} = props;
              return ( 
-                <div className = "home">
+                <div className = "campuses">
+                
                     <div className = "campuses-container">
+                    <div className = 'title'>
                     <h2>All Campuses</h2>
-                        <ul>                 
+                    </div>
+                        <div className = 'campus'>                             
                             {
                                 campuses.data.map(campuses => (
-                                <li key={campuses.id} >
+                                <div key={campuses.id} >
                                     <a href = "#">
                                         <img src={campuses.imageUrl} alt = "image" /> 
                                     </a> 
                                 <Link to ={`/campuses/${campuses.id}`}>{campuses.name}</Link> 
-                                </li>          
+                                </div>          
                                 ))
                             }
-                        </ul>
-                    </div>
-                    
+                        </div>
+                    </div>      
                      <div className = "button-container">                       
                        <button>
                          <Link to={'/campuses/newCampus'}>Add New Campus</Link>
