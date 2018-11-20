@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { thunkDeleteStudent } from '../reducers/students'
 
 
 const SingleStudent = (props) => {
@@ -19,10 +20,12 @@ const SingleStudent = (props) => {
                     <h4>{ campus && <Link to={`/campuses/${campus.id}`}>Campus: {campus.name}</Link>}</h4>
                     <h4>{student.email}</h4>
                     <h4>GPA: {student.gpa}</h4>
+                    
                 </div>
-        {/* <div className="button-container">
-          <button className="btn-main" onClick={navigateToEditStudent}>Edit</button>
-        </div> */}
+        <div className="button-container">
+          <button type="button" className="deleteStudent" onClick = {() => props.thunkDeleteStudent(student.id)}>Delete Student</button>
+          <button type="button" className="btn-main">Edit</button>
+        </div>
         </div>
         )
         : <h1>Loading...</h1>
@@ -37,4 +40,11 @@ const SingleStudent = (props) => {
     }
   }
 
-export default connect(mapStateToProps)(SingleStudent);
+  const mapDispatchToProps = function(dispatch, ownProps) {
+    return {
+        thunkDeleteStudent: (studentId) => {dispatch(thunkDeleteStudent(studentId));
+        ownProps.history.push('/students')
+       }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SingleStudent);

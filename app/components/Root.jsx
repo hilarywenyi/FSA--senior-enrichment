@@ -14,7 +14,7 @@ import SingleStudent from './SingleStudent';
 import NewCampus from './NewCampus';
 import NewStudent from './NewStudent';
 
-//import EditCampus from './EditCampus'
+import EditCampus from './EditCampus'
 
 //import reducer
 import { thunkFetchCampuses } from  '../reducers/campuses'
@@ -47,8 +47,8 @@ class Root extends Component {
               <Route exact path = "/campuses/:campusId" component = {SingleCampus} />
               <Route exact path = "/students/:studentId" component = {SingleStudent} />
               
-              {/* <Route exact path = "/campuses/:campusId/edit-campus" component = {EditCampus} /> */}
-              {/* <Route exact path = "/students/:studentId/edit-student" component = {EditStudent} /> */}            
+              <Route exact path = "/campuses/:campusId/editCampus" component = {EditCampus} />
+              {/* <Route exact path = "/students/:studentId/editStudent" component = {EditStudent} /> */}            
             </Switch>
           </main>
         </div>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { runInNewContext } from 'vm';
 
 /*  Campuses, a sub-reducer to manage campuses in Redux store */
 
@@ -60,18 +61,22 @@ export const thunkAddCampus = (newCampus, ownProps) => {
 }
 
 //PUT a campus (editting)
-// export function thunkPutCampus (campus, history) {
-
-//     return function thunk (dispatch) {
-
-//       return axios.put(`/api/campuses/${campus.id}`, {name: campus.name, image:campus.image})
-//         .then(res => res.data)
-//         .then(editedCampus => {
-//           dispatch(editCampus(editedCampus));
-//           history.push(`/campuses/${editedCampus.id}`);
-//         });
-//     }
-// }
+export function thunkPutCampus (campus, ownProps) {
+   return dispatch => {
+       try {
+           const { data } = axios.put(`/api/campuses/${campus.id}`, {
+               name: campus.name, 
+               imageUrl: campus.imageUrl,
+               address: campus.address,
+               description: campus.description
+           }); // or I can just "campus" 
+           dispatch(editCampus(data));
+           ownProps.history.push(`/campuses/${data.id}`);
+       } catch (err){
+           console.error(err)
+       }
+   }
+}
 
 //DELETE a campus: try catch with async/await or Promises
 export const thunkDeleteCampus = (campusId) => {
@@ -96,10 +101,10 @@ export default function campusReducer (state = initialState, action){
       case ADD_NEW_CAMPUS: 
         return {data:[...state, action.campus], isFetching: false}        
       
-    //   case EDIT_CAMPUS: {
-    //     const editedCampuses = state.campuses.filter(campus => campus.id!==Number(action.campus.id));
-    //     return Object.assign({},state, {campuses: [...editedCampuses, action.campus]});
-    //   }
+      case EDIT_CAMPUS: {
+         const editedCampuses = [...state].filter(campus => campus.id !== action.campus.id);
+         return [...editedCampuses, action.campus]
+      }
             
       case DELETE_CAMPUS: {   
         console.log('action', action)

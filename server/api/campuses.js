@@ -38,7 +38,6 @@ router.post('/', async (req, res, next) => {
 router.delete('/:campusId', async (req, res, next)=> { 
   try {
     const campus = await Campus.findById(req.params.campusId);
-    console.log('campus in backend', campus)
     await campus.destroy()
     res.sendStatus(204)
   } catch (error) {
@@ -50,9 +49,11 @@ router.delete('/:campusId', async (req, res, next)=> {
 //PUT(updating) /api/campuses/:campusId
 router.put('/:campusId', async (req, res, next) => {
   try {
-    // const campus = await Campus.findById(req.params.id);
-    // res.json(campus.update(req.body));
-    var x = await Campus.update(req.body, {where: {id:req.params.id},returning: true})
+    var x = await Campus.update(req.body, {where: {id: req.params.id}, returning: true})
+    res.json({
+      message: 'Updated Sucessfully',
+      campus: x[1][0]
+    })
   } catch (error) {
     next(error)
   }

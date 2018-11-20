@@ -81,12 +81,11 @@ export const thunkAddStudent = (newStudent, ownProps) => {
 // }
 
 //DELETE a student
-export const thunkDeleteStudent = (id) => {
-    return async dispatch => {
-        try {
-          //now backend ready to delete
-          await axios.delete(`/api/students/${id}`);
-          const action = deleteStudent(id);
+export const thunkDeleteStudent = (studentid) => {
+    return  dispatch => {
+        try {     
+          axios.delete(`/api/students/${studentid}`);
+          const action = deleteStudent(studentId);
           dispatch(action);
         } catch (error) {
           console.log('removeStudent went wrong', error)
@@ -115,8 +114,12 @@ export default function studentReducer (state = initialState, action){
       // return [...state,action.newStudent];
       
       case DELETE_STUDENT:
-       return state.filter(element => element.id !== action.id); 
-             
+       return {
+        data: state.data.filter(student => {
+            return student.id !== action.studentId}),
+        isFetching: false    
+       } 
+           
       default:
         return state
     }

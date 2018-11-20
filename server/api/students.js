@@ -23,11 +23,11 @@ router.get('/:studentId', async (req, res, next) => {
     }
 })
 
-//POST(adding) /api/students/newStudent
-router.post('/students/new-student', async (req, res, next) => {
+//POST(adding) /api/students
+router.post('/', async (req, res, next) => {
   try {
      const newStudent = await Student.create(req.body);
-     res.json(newStudent);
+     res.status(200).json(newStudent);
   } catch (error) {
     next(error)
   }
@@ -38,6 +38,7 @@ router.delete('/:studentId', async (req, res, next)=> {
   try {
     const student = await Student.findById(req.params.studentId);
     res.json(student.destroy())
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }

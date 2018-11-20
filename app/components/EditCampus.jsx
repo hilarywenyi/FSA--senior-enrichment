@@ -1,37 +1,61 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { thunkPutCampus } from '../reducers';
+import { thunkPutCampus } from '../reducers/campuses';
 
 
 const EditCampus = (props) => {
 
   const { handleSubmit } = props;
-  const campusId = props.match.params.campusId;
-  const campus = props.campuses.find(campus => campus.id === campusId)
+  console.log('whats props', props)
+  const campusId = Number(props.match.params.campusId);
+  console.log('campusid', typeof campusId)
+  const campus = props.campuses.data.find(campus => campus.id === campusId);
+  console.log('campus in editpage', campus);
+  const { name, address, imageUrl, description } = campus;
+ 
+
   return (
-    <form className = "form-horizontal" onSubmit = {(event)=>{handleSubmit(event, campusId)}}>
-    <fieldset>
-      <legend>Edit Campus</legend>
-      <div className = "form-group">
-      <label>Name</label>
-      <div>
-        <input className = "form-control" type = "text" defaultValue = {campus.name} name = "campusName" placeholder ="Enter campus name" />
-      </div>
-      </div>
+    <form className = "form-horizontal" onSubmit = {(event) => {handleSubmit(event, campusId)}}>
+    <div>
+        <main>
+          <h1>Edit Campus Here</h1>
+          <form>
+            <label>School Name:
+                <input
+                  name="name"
+                  type="text"
+                  value={name}
+                />
+            </label>
 
-       <div className = "form-group">
-      <label>Image</label>
-      <div>
-        <input className = "form-control" type = "text" defaultValue = {campus.image} name = "campusImage" placeholder ="Enter campus image" />
-      </div>
-      </div>
+            <label>Address:
+                <input
+                  name="address"
+                  type="text"
+                  value={address}
+                />
+            </label>
 
-      <div className = "form-group">
-      <div>
-         <button type = "submit" className ="btn btn-default">Submit Change</button>
+             <label>Image:
+                <input
+                  name="imageUrl"
+                  type="text"
+                  value={imageUrl}
+                />
+            </label>
+
+             <label>Description:
+                <input
+                  name="description"
+                  type="text"
+                  value={description}
+                />
+            </label>
+            
+            <button type="submit">Submit Change</button>
+          </form>
+        </main>
       </div>
-      </div>
-    </fieldset>
     
     </form>
   )
@@ -45,7 +69,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    handleSubmit(event,id) {
+    handleSubmit(event, id) {
       event.preventDefault();
       const name = event.target.campusName.value;
       const image = event.target.campusImage.value || undefined;
@@ -55,4 +79,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(EditCampus);
+export default connect(mapStateToProps, mapDispatchToProps)(EditCampus);
