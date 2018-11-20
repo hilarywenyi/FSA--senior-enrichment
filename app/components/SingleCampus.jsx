@@ -4,10 +4,8 @@ import { connect } from "react-redux" ;
 import { thunkDeleteCampus } from '../reducers/campuses'
 
 const SingleCampus = (props) => {
-    console.log('props', props)
-
     const  { campus, students, history } = props
-    console.log('props', props)
+    console.log('props.students', props.students)
          return (
             campus
             ?(
@@ -19,12 +17,23 @@ const SingleCampus = (props) => {
             <div className = "row">
                 <div className = "campuseImage-container" >
                    <img src = {campus.imageUrl} />
-                   <h4> {campus.address}</h4>
-                   <h4> {campus.description}</h4>
+                   <h4> Address: {campus.address}</h4>
+                   <h4> Description: {campus.description}</h4>
+                   <h4> Students on Campus: </h4>
+                   {
+                       students.map((students) => (
+                        <h4> {students && <Link to = {`/students/${students.id}`} > {students.firstName} {students.lastName}</Link>}</h4>
+                        ))
+                   }
                   
-                   <div className = "row">
-                   <Link className = "link-button btn btn-default" to = {`/campuses/${campus.id}/new-student`}>Add New Student</Link>
-                   <Link className = "link-button btn btn-default" to = {`/campuses/${campus.id}/edit-student`}>Edit Campus</Link>
+                  
+                   <div className = "column">
+                   <button type="button">
+                         <Link to={`/campuses/${campus.id}/new-student`}>Add New Student</Link>
+                   </button>            
+                   <button type="button"> 
+                         <Link to={`/campuses/${campus.id}/edit-student`}>Edit Campus</Link>
+                   </button>            
                    <button type="button" className="deleteCampus" onClick = {() => props.thunkDeleteCampus(campus.id)}>Delete Campus</button>
                    </div>                            
                 </div>

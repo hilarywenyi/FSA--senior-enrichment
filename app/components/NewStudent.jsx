@@ -1,86 +1,100 @@
-import React from 'react';
-import { thunkPostStudent } from '../reducers';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { thunkAddStudent } from '../reducers/students';
 
+export class NewStudent extends Component {
+    constructor() {
+        super();
+        this.state = {
+            firstName: '',
+            lastName: '',
+            email:'',
+            imageUrl: '',
+            gpa: ''
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
+    handleChange(event){
+        this.setState({
+            [event.target.name]:event.target.value
+        })
+    }
 
-// class NewStudent extends React.Component {
- 
-//     constructor(props){
-//       super(props)
-//       const student = this.props.selectedStudent || {name: '', bio: ''}
-//       student.campusId = student.campusId || 
-//     }
+    handleSubmit(event){
+        event.preventDefault();
+        this.props.thunkAddStudent({...this.state});
 
+    }
 
-//   // const {handleSubmit, campuses} = props;
-//   // const campusId = props.match.params.campusId;
-//   // console.log("campus",campusId)
-//   // const campus = props.campuses.find(campus => campus.id === campusId);
-//   // console.log('campus', campus)
-  
-//   return (
-//     <form className = "form-horizontal" onSubmit = {handleSubmit}>
-//     <fieldset>
-//        <legend>Create a Student</legend>
-//        <div className = "form-group">
-//             <label>Name</label>
-//             <div>
-//               <input type="text" name= "studentName" placeholder = "Enter student name" />
-//             </div>
-//        </div>
+    render(){
+        const {firstName, lastName, email, imageUrl, gpa } = this.state;
+        return (
+            <div>
+        <main>
+          <h1>Add New Student Here</h1>
+          <form onSubmit={this.handleSubmit}>
+            <label>First Name:
+                <input
+                  onChange={this.handleChange}
+                  name="firstName"
+                  type="text"
+                  value={firstName}
+                />
+            </label>
 
-//        <div className = "form-group">
-//             <label>Campus</label>
-//             <div>
-//               {
-//                 (<select name="studentCampus">
-//                     {
-//                       campuses && campuses.map(campus => (
-//                         <option key = {campus.id} value ={campus.id}>{campus.name}</option>
-//                       ))
-//                     }
-//                 </select>)
-//               }
-//             </div>
-//        </div>
+             <label>Last Name:
+                <input
+                  onChange={this.handleChange}
+                  name="lastName"
+                  type="text"
+                  value={lastName}
+                />
+            </label>
 
-//        <div className = "form-group">
-//             <label>Image</label>
-//             <div>
-//               <input type="text" name= "studentImage" placeholder = "Enter student photo" />
-//             </div>
-//        </div>
+            <label>Email:
+                <input
+                  onChange={this.handleChange}
+                  name="email"
+                  type="text"
+                  value={email}
+                />
+            </label>
 
-//        <div className = "form-group">
-//             <div>
-//               <button type = "submit" className = "btn btn-default">Create Student</button>
-//             </div>
-//        </div>
+             <label>Image:
+                <input
+                  onChange={this.handleChange}
+                  name="imageUrl"
+                  type="text"
+                  value={imageUrl}
+                />
+            </label>
 
-//     </fieldset>
-//     </form>
-//   )
-// }
+             <label>GPA:
+                <input
+                  onChange={this.handleChange}
+                  name="gpa"
+                  type="text"
+                  value={gpa}
+                />
+            </label>
+            
+            <button type="submit">Submit</button>
+          </form>
+        </main>
+      </div>
+        )
+    }
 
-// const mapStateToProps = function(state) {
-//   console.log("MAP STATE TO PROPS" , state.campuses)
-//   return {
-//       campuses: state.campuses, //campusesList: state.campuses
-//       //students: state.students
-//   }
-// };
+}
 
-// const mapDispatchToProps = function (dispatch, ownProps) {
-//   return {
-//     handleSubmit (event) {
-//       event.preventDefault();
-//       const name = event.target.studentName.value;
-//       const image = event.target.studentImage.value || undefined;
-//       const campusId = ownProps.match.params.campusId || event.target.studentCampus.value;
-//       dispatch(thunkPostStudent({name, campusId, image}, ownProps.history))
-//     }
-//   }
-// }
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+      thunkAddStudent: student => {
+        dispatch(thunkAddStudent(student, ownProps));
+      }
+    };
+  };
 
-// export default connect(mapStateToProps, mapDispatchToProps)(NewStudent);
+export default connect(null, mapDispatchToProps)(NewStudent);

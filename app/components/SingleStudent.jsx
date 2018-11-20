@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 
 const SingleStudent = (props) => {
-       
+  
         const { student, campuses } = props;
-        const campus = campuses.find( campus => campus.id === student.campusId)
+        const campus = campuses.data.find( campus => campus.id === student.campusId)
         return student 
         ? (
         <div className="student-bio">
@@ -15,11 +15,10 @@ const SingleStudent = (props) => {
                 </div>
 
                 <div>
-                    <h3>{student.firstName} {student.lastName}</h3>
-                    <h6>{ campus && <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>}</h6>
-                    <h6>{student.email}</h6>
-                    <h6>GPA: {student.gpa}</h6>
-
+                    <h4>{student.firstName} {student.lastName}</h4>
+                    <h4>{ campus && <Link to={`/campuses/${campus.id}`}>Campus: {campus.name}</Link>}</h4>
+                    <h4>{student.email}</h4>
+                    <h4>GPA: {student.gpa}</h4>
                 </div>
         {/* <div className="button-container">
           <button className="btn-main" onClick={navigateToEditStudent}>Edit</button>
@@ -29,10 +28,11 @@ const SingleStudent = (props) => {
         : <h1>Loading...</h1>
 }
 
-  const mapStateToProps = function (state, getState) {
-    const studentId = Number(getState.match.params.studentId); 
+  const mapStateToProps = function (state, ownProps) {
+    const studentId = Number(ownProps.match.params.studentId); 
+    console.log('state.students', state.students)
     return {
-       student: state.students.find(student => student.id === studentId) || {name: ''},
+       student: state.students.data.find(student => student.id === studentId) || {name: ''},
        campuses: state.campuses
     }
   }

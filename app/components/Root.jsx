@@ -9,9 +9,11 @@ import  Campuses  from './Campuses';
 import  Students  from './Students';
 
 import SingleCampus from './SingleCampus';
-//import SingleStudent from './SingleStudent';
+import SingleStudent from './SingleStudent';
 
 import NewCampus from './NewCampus';
+import NewStudent from './NewStudent';
+
 //import EditCampus from './EditCampus'
 
 //import reducer
@@ -23,8 +25,6 @@ class Root extends Component {
   componentDidMount() {
     this.props.thunkFetchCampuses();
     this.props.thunkFetchStudents();
-    //store.dispatch(thunkFetchCampuses())
-    //store.dispatch(thunkFetchStudents())
   }
 
   render() {
@@ -42,12 +42,12 @@ class Root extends Component {
               <Route exact path = "/home" component = {Home} />
               <Route exact path = "/campuses" component = {Campuses} />
               <Route exact path = "/students" component = {Students} />
-              <Route exact path = "/campuses/newCampus" component = {NewCampus} />
+              <Route exact path = "/campuses/newCampus" component = {NewCampus} />   
+              <Route exact path = "/students/newStudent" component = {NewStudent} />
               <Route exact path = "/campuses/:campusId" component = {SingleCampus} />
               <Route exact path = "/students/:studentId" component = {SingleStudent} />
               
-              {/* <Route path = "/campuses/:campusId/new-student" component = {NewStudent} />
-              <Route exact path = "/campuses/:campusId/edit-campus" component = {EditCampus} /> */}
+              {/* <Route exact path = "/campuses/:campusId/edit-campus" component = {EditCampus} /> */}
               {/* <Route exact path = "/students/:studentId/edit-student" component = {EditStudent} /> */}            
             </Switch>
           </main>

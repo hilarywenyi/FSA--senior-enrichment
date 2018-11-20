@@ -1,6 +1,5 @@
 
 const router = require('express').Router();
-//const { Campus } = require('../db/index');
 const { Campus, Student } = require('../db');
 
 module.exports = router;
@@ -29,7 +28,6 @@ router.get('/:campusId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const newCampus = await Campus.create(req.body);
-    console.log('campus', newCampus)
     res.status(200).json(newCampus)
   } catch (error) {
     next(error)

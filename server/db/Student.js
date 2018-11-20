@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-//const db = require('../index');
 const db = require('./database.js')
 
 

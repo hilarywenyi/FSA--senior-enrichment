@@ -16,15 +16,8 @@ router.get('/', async (req, res, next)=> {
 //GET /api/students/:studentId
 router.get('/:studentId', async (req, res, next) => {
     try {
-      //const student = await Student.findById(req.params.id, {include: [Campus]})
-
-      const student = await Student.findOne({
-        where: {id: req.params.studentId}, include:[Campus]
-      })
-      // const student = await Student.findOne({where: {id: req.params.studentId},  
-      //   include: [ {model: Campus, include:[{all : true}]  }]}
-      // );
-      res.send(student);
+      const student = await Student.findById(req.params.studentId)
+      res.json(student);
     } catch (error) {
        next(error)
     }

@@ -23,7 +23,6 @@ export class NewCampus extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('this.props', this.props)
     this.props.thunkAddCampus({...this.state}); //name should match line 83
   }
 
@@ -89,75 +88,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(NewCampus);
-
-// import React from 'react';
-// import { connect } from 'react-redux';
-// import { thunkAddCampus } from '../reducers';
-
-// class NewCampus extends React.Component {
-//     constructor(props){
-//         super(props);
-//         this.state = {
-//             name: this.props.campusName || '',
-//             imageUrl: this.props.campusImage || '',
-//         }
-//         this.handleNameChange = this.handleNameChange.bind(this);
-//         this.handleUrlChange = this.handleUrlChange.bind(this);
-//     }
-
-//     handleNameChange(event) {
-//         this.setState({
-//           name: event.target.value
-//         })
-//     }
-
-//     handleUrlChange(event) {
-//         this.setState({
-//           imageUrl: event.target.value
-//         })
-//     }
-
-//     render(){
-        
-//         const campusName = this.props.campusName || undefined;
-//         const campusImage = this.props.campusImage || undefined;
-
-//         return (
-//             <div> 
-//                 <main>
-//                     <h2> Add New Campus </h2>
-//                     <form onSubmit ={(event)=> this.props.handleSubmit(event, this.state.name, this.state.imageUrl, this.props.campusId)}>
-//                      <label htmlFor ='name'> Campus Name: </label>
-//                      <input onChange = {this.handleNameChange}
-//                             name = 'name'
-//                             type = 'text'
-//                             defaultValue = {campusName}
-//                     />                  
-//                      <label htmlFor ='image'> Image: </label>
-//                      <input onChange = {this.handleUrlChange}
-//                             image = 'imageUrl'
-//                             type = 'text'
-//                             defaultValue = {campusImage}
-//                     />   
-//                     <button type = 'submit'> Add New Campus </button>  
-//             </form>
-//                 </main>
-//             </div> 
-//         )
-//     }
-// }
-
-// const mapDispatchToProps = function (dispatch, ownProps){
-//     return {
-//         handleSubmit(event, name, imageUrl){
-//             event.preventDefault();
-//             const newCampus = thunkAddCampus(ownProps.history, {name, imageUrl})
-//             dispatch(newCampus);
-//         }
-//     } 
-//   }
-
-// //see if ownProps.history can solve TypeError: Cannot read property 'push' of undefined
-
-//  export default connect(null, mapDispatchToProps)(NewCampus);
-

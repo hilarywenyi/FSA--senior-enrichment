@@ -2,11 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom" 
 import { connect } from "react-redux" 
 
-function Campuses(props){  
+const Campuses = (props) => {  
              const  {campuses} = props;
              return ( 
-                <div className = "campuses">
-                
+            <div className = "campuses">               
                     <div className = "campuses-container">
                     <div className = 'title'>
                     <h2>All Campuses</h2>
@@ -15,9 +14,11 @@ function Campuses(props){
                             {
                                 campuses.data.map(campuses => (
                                 <div key={campuses.id} >
+                                 <Link to= {`/campuses/${campuses.id}`} >
                                     <a href = "#">
-                                        <img src={campuses.imageUrl} alt = "image" /> 
+                                       <img src={campuses.imageUrl} alt = "image" />
                                     </a> 
+                                </Link>
                                 <Link to ={`/campuses/${campuses.id}`}>{campuses.name}</Link> 
                                 </div>          
                                 ))
@@ -25,18 +26,16 @@ function Campuses(props){
                         </div>
                     </div>      
                      <div className = "button-container">                       
-                       <button>
+                       <button type ='button'>
                          <Link to={'/campuses/newCampus'}>Add New Campus</Link>
                        </button>              
                      </div>
-                   
-                </div>
+             </div>
              )
  }
 
 
 const mapStateToProps = function(state) {
-    console.log('campuses on state', state)
     return {
         campuses: state.campuses    
     }

@@ -1,8 +1,9 @@
 import axios from "axios";
 /*  Students, a sub-reducer to manage students in your Redux store */
+
 //action type
 const GET_STUDENTS = 'GET_STUDENTS';
-const GET_STUDENT = 'GET_STUDENT';
+const ADD_NEW_STUDENT = 'ADD_NEW_STUDENT'
 const EDIT_STUDENT = 'EDIT_STUDENT';
 const DELETE_STUDENT = 'DELETE_STUDENT';
 
@@ -14,9 +15,9 @@ export const getStudents = (students) => {
     }
 }
 
-export const getStudent = (student) => {
+export const addStudent = student => {
     return {
-        type: GET_STUDENT,
+        type: ADD_NEW_STUDENT,
         student
     }
 }
@@ -50,16 +51,13 @@ export const thunkFetchStudents = () => {
     }
 }
 
-//Post a studnet
-export function thunkPostStudent (history, studentData) {
-    const { campusId } = studentData
+//Post a student (adding)
+export const thunkAddStudent = (newStudent, ownProps) => {
     return async (dispatch) => {
       try {
-        const res = await axios.post(`/api/campuses/${campusId}/new-student`) 
-        const newStudent = res.data;
-        const action = getStudent(newStudent);
-        dispatch(action);
-        history.push(`/campuses/${campusId}`); 
+        const { data } = await axios.post('/api/students', newStudent) 
+        dispatch(addStudent(data));
+        ownProps.history.push(`/students/${data.id}`)
       } catch (error) {
           console.log(error)
       }
@@ -67,20 +65,20 @@ export function thunkPostStudent (history, studentData) {
 }
 
 
-export function thunkPutStudent (history, studentData, studentId) {
+// export function thunkPutStudent (history, studentData, studentId) {
 
-    return async (dispatch) => {
-    try{
-        const res = await axios.put(`/api/students/${studentId}`, studentData)
-        const updatedStudent = res.data;
-        const action = editStudent(updatedStudent);
-        dispatch(action);
-        history.push(`/students/${updatedStudent.id}`);
-       } catch (error) {
-        console.log(error)
-       }   
-    }
-}
+//     return async (dispatch) => {
+//     try{
+//         const res = await axios.put(`/api/students/${studentId}`, studentData)
+//         const updatedStudent = res.data;
+//         const action = editStudent(updatedStudent);
+//         dispatch(action);
+//         history.push(`/students/${updatedStudent.id}`);
+//        } catch (error) {
+//         console.log(error)
+//        }   
+//     }
+// }
 
 //DELETE a student
 export const thunkDeleteStudent = (id) => {
@@ -97,24 +95,23 @@ export const thunkDeleteStudent = (id) => {
 }
 
 //reducer
-const initialState = [];
+const initialState = {data:[], isFetching: true}
 export default function studentReducer (state = initialState, action){
 
     switch (action.type){
-      case GET_STUDENTS: 
-        console.log("action.students in reducer = ", action.students)
-        return action.students;
-
-      case GET_STUDENT: 
-        return [...state,action.student];
+      case GET_STUDENTS:  
+        return {data: action.students, isFetching: false}
       
-      case EDIT_STUDENT: {
-        const studentToEdit = state.find(student => student.id === action.student.id);
-        const indexOfStudentToEdit = state.indexOf(studentToEdit);
-        let newState = [...state];
-        newState.splice(indexOfStudentToEdit, 1, action.student);
-        return newState;
-      }
+      case ADD_NEW_STUDENT:
+        return {data: [...state, action.student], isFetching: false}  
+       
+    //   case EDIT_STUDENT: {
+    //     const studentToEdit = state.find(student => student.id === action.student.id);
+    //     const indexOfStudentToEdit = state.indexOf(studentToEdit);
+    //     let newState = [...state];
+    //     newState.splice(indexOfStudentToEdit, 1, action.student);
+    //     return newState;
+    //   }
       // return [...state,action.newStudent];
       
       case DELETE_STUDENT:
