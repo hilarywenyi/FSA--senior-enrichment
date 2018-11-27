@@ -49,10 +49,12 @@ router.delete('/:campusId', async (req, res, next)=> {
 //PUT(updating) /api/campuses/:campusId
 router.put('/:campusId', async (req, res, next) => {
   try {
-    var x = await Campus.update(req.body, {where: {id: req.params.id}, returning: true})
+    const campusToUpdate = await Campus.findById(req.params.campusId); //id has to match /:campusId
+    const updatedCampus = await campusToUpdate.update(req.body)
+    if(!updatedCampus) return res.sendStatus(404);
     res.json({
       message: 'Updated Sucessfully',
-      campus: x[1][0]
+      campusToUpdate: updatedCampus
     })
   } catch (error) {
     next(error)

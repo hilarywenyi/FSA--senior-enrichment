@@ -13,11 +13,11 @@ const Campuses = (props) => {
                         <div className = 'campus'>                             
                             {
                                 campuses.data.map(campuses => (
-                                <div key={campuses.id} >
-                                 <Link to= {`/campuses/${campuses.id}`} >
-                                    <a href = "#">
-                                       <img src={campuses.imageUrl} alt = "image" />
-                                    </a> 
+                                <div>
+                                 <Link to= {`/campuses/${campuses.id}`} key = {campuses.id}>
+                                    {/* <a href = "#"> */}
+                                       <img src={campuses.imageUrl} alt = "image"/>
+                                    {/* </a>  */}
                                 </Link>
                                 <Link to ={`/campuses/${campuses.id}`}>{campuses.name}</Link> 
                                 </div>          
@@ -26,7 +26,7 @@ const Campuses = (props) => {
                         </div>
                     </div>      
                      <div className = "button-container">                       
-                       <button type ='button'>
+                       <button type ='button' className = 'btn btn-outline-sucess btn-sm'>
                          <Link to={'/campuses/newCampus'}>Add New Campus</Link>
                        </button>              
                      </div>

@@ -1,54 +1,74 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { thunkPutCampus } from '../reducers/campuses';
 
+export class EditCampus extends Component {
+  constructor(props) {
+    super(props);
+    //console.log(this.props) //good
+    this.state = {
+      name: this.props.selectedCampus.name,
+      address: this.props.selectedCampus.address,
+      imageUrl: this.props.selectedCampus.imageUrl,
+      description: this.props.selectedCampus.description
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-const EditCampus = (props) => {
+  handleChange(event){
+    this.setState({
+      [event.target.name]: event.target.value,
+    })
+  }
 
-  const { handleSubmit } = props;
-  console.log('whats props', props)
-  const campusId = Number(props.match.params.campusId);
-  console.log('campusid', typeof campusId)
-  const campus = props.campuses.data.find(campus => campus.id === campusId);
-  console.log('campus in editpage', campus);
-  const { name, address, imageUrl, description } = campus;
- 
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.thunkPutCampus({...this.state}); 
+  }
 
-  return (
-    <form className = "form-horizontal" onSubmit = {(event) => {handleSubmit(event, campusId)}}>
+  render(){   
+  // console.log('this.props', this.props) //not returning anything, why?
+  // console.log('this.state',this.state) //good
+  //const { name, address, imageUrl, description } = this.props.selectedCampus;
+  return (   
     <div>
         <main>
           <h1>Edit Campus Here</h1>
-          <form>
+          <form onSubmit = {this.handleSubmit}>
             <label>School Name:
                 <input
+                  onChange={this.handleChange}
                   name="name"
                   type="text"
-                  value={name}
+                  value={this.state.name} //wasn't working if {name} = this.props.selectedCampus, why?
                 />
             </label>
 
             <label>Address:
                 <input
+                  onChange={this.handleChange}
                   name="address"
                   type="text"
-                  value={address}
+                  value={this.state.address}
                 />
             </label>
 
              <label>Image:
                 <input
+                  onChange={this.handleChange}
                   name="imageUrl"
                   type="text"
-                  value={imageUrl}
+                  value={this.state.imageUrl}
                 />
             </label>
 
              <label>Description:
                 <input
+                  onChange={this.handleChange}
                   name="description"
                   type="text"
-                  value={description}
+                  value={this.state.description}
                 />
             </label>
             
@@ -57,26 +77,24 @@ const EditCampus = (props) => {
         </main>
       </div>
     
-    </form>
-  )
+    
+  )}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const campusId = Number(ownProps.match.params.campusId); //Good
   return {
-    campuses: state.campuses
+    selectedCampus: state.campuses.data.find(campus => campus.id === campusId)
   }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+  const id = Number(ownProps.match.params.campusId);
   return {
-    handleSubmit(event, id) {
-      event.preventDefault();
-      const name = event.target.campusName.value;
-      const image = event.target.campusImage.value || undefined;
-      dispatch(thunkPutCampus({id, name, image}, ownProps.history))
-    }
+    thunkPutCampus: campus => {
+      dispatch(thunkPutCampus(campus, id, ownProps))
+    }   
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditCampus);

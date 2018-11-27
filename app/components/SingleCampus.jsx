@@ -19,11 +19,10 @@ const SingleCampus = (props) => {
                    <img src = {campus.imageUrl} />
                    <h4> Address: {campus.address}</h4>
                    <h4> Description: {campus.description}</h4>
-                   <h4> Students on Campus: </h4>
-                   {/* need to add a key */}
+                   <h4> Students on Campus: </h4>                  
                    {
                        students.map((students) => (
-                        <h4> {students && <Link to = {`/students/${students.id}`} > {students.firstName} {students.lastName}</Link>}</h4>
+                        <h4 key> {students && <Link to = {`/students/${students.id}`} key = {students.id} > {students.firstName} {students.lastName}</Link>}</h4>
                         ))
                    }
                   
@@ -40,7 +39,7 @@ const SingleCampus = (props) => {
                 </div>
             </div>               
             </div> 
-         ):<h1>loading</h1>
+          ):<h1>loading</h1>
          ) 
 }
 

@@ -97,7 +97,7 @@ img {
 
 .campus img:hover{
   padding: 2em;
-  transform: translate(-0.25em, 0)
+  transform: translate(-0.10em, 0)
 }
 
 .loader {

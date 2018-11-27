@@ -61,17 +61,15 @@ export const thunkAddCampus = (newCampus, ownProps) => {
 }
 
 //PUT a campus (editting)
-export function thunkPutCampus (campus, ownProps) {
-   return dispatch => {
+export function thunkPutCampus (updatedCampus, id, ownProps) {
+    console.log('id',id)
+
+   return async dispatch => {
        try {
-           const { data } = axios.put(`/api/campuses/${campus.id}`, {
-               name: campus.name, 
-               imageUrl: campus.imageUrl,
-               address: campus.address,
-               description: campus.description
-           }); // or I can just "campus" 
+           const { data } = await axios.put(`/api/campuses/${id}`, updatedCampus); 
+           console.log('data', data.campusToUpdate)
            dispatch(editCampus(data));
-           ownProps.history.push(`/campuses/${data.id}`);
+           ownProps.history.push(`/campuses/${id}`);
        } catch (err){
            console.error(err)
        }
@@ -101,12 +99,20 @@ export default function campusReducer (state = initialState, action){
       case ADD_NEW_CAMPUS: 
         return {data:[...state, action.campus], isFetching: false}        
       
-      case EDIT_CAMPUS: {
-         const editedCampuses = [...state].filter(campus => campus.id !== action.campus.id);
-         return [...editedCampuses, action.campus]
+      case EDIT_CAMPUS: {     
+          console.log('action.campus!!!!!!!', action.campus.campusToUpdate)
+        //  const editedCampus = [...state].filter(campus => campus.id === action.campusToUpdate.id);
+        //  console.log('editedCampus', editedCampus)
+        //  return {data:[...editedCampus, action.campus], isFetching: false}
+        return { 
+            data: state.data.map(campus => {
+                return campus.id === action.campus.campusToUpdate.id ? action.campus.campusToUpdate : campus
+            }),
+            isFetching: false
+        }
       }
             
-      case DELETE_CAMPUS: {   
+      case DELETE_CAMPUS: {    
         console.log('action', action)
        return {
         data: state.data.filter(campus => {
